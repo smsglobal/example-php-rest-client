@@ -33,15 +33,13 @@ $wrapper = new SMSGlobalAPIWrapper($key, $secret, $apiProtocol, $configs['api_ho
 # Get Balance
 
     echo "\nGetting Balance ..\n";
-    $balanceData = $wrapper->get("balance");
-    exit();
-//    balance = JSON.parse(balanceData)
-//    puts "Your balance is: #{balance['balance']}"
-//    puts "Country code: #{balance['countryCode']}"
-//    puts "Cost per SMS: #{balance['costPerSms']}"
-//    puts "Cost per MMS: #{balance['costPerMms']}"
-//    puts "SMS available: #{balance['smsAvailable']}"
-//    puts "MMS available: #{balance['mmsAvailable']}"
+    $balance = $wrapper->get("balance");
+    printf("\nYour balance is: %s", $balance->balance);
+    printf("\nCountry code: %s", $balance->countryCode);
+    printf("\nCost per SMS: %s", $balance->costPerSms);
+    printf("\nCost per MMS: %s", $balance->costPerMms);
+    printf("\nSMS available: %s", $balance->smsAvailable);
+    printf("\nMMS available: %s", $balance->mmsAvailable);
 
 
 ?>

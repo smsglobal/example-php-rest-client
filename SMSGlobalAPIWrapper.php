@@ -65,9 +65,9 @@ class SMSGlobalAPIWrapper
      * @throws Exception when there's something wrong with the request/response
      */
     private function connect($method, $action, $id = null) {
-        $action = !$id ? "/$action" : "/$action/id/$id";
+        $action = !$id ? "$action" : "$action/id/$id";
 
-        $uri = "{$this->protocol}://{$this->host}:{$this->port}/{$this->apiVersion}{$action}";
+        $uri = "{$this->protocol}://{$this->host}:{$this->port}/{$this->apiVersion}/{$action}";
 
         $request = Request::init()
             ->expects(Mime::JSON)
@@ -99,7 +99,7 @@ class SMSGlobalAPIWrapper
             // do it!
             $response = $request->send();
 
-            return $response;
+            return $response->body;
         } catch (Exception $e) {
             if($this->debug) {
                 throw $e;
@@ -126,7 +126,7 @@ class SMSGlobalAPIWrapper
         $rawStr = $timestamp . "\n"
                 . $nonce . "\n"
                 . $method . "\n"
-                . $action . "\n"
+                . '/'. $this->apiVersion .'/'. $action . "\n"
                 . $this->host . "\n"
                 . $this->port . "\n"
                 . $this->extraData . "\n";

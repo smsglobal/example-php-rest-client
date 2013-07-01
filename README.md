@@ -15,7 +15,6 @@ Preparation & Compile
 ~~~
     /> php composer.phar install
 ~~~
-
  - Make sure your user has the right to execute the file SMSGlobalAPIConsumer.rb if you intend to run it as a script
 ~~~
 /> chmod u+x SMSGlobalAPIConsumer.php
@@ -25,50 +24,52 @@ Execution
 --------------------------------
 The consumer file will be your 'main' method, this file can be run as a ruby script and accepts 2 arguments and 1 option
 ~~~
-/> ./SMSGlobalAPIConsumer.rb [-v] [-s] <Key> <Secret>
-/> ./SMSGlobalAPIConsumer.rb -h
+/> ./SMSGlobalAPIConsumer.php [-v] [-s] -k <key> -s <Secret>
+/> ./SMSGlobalAPIConsumer.php -h
 ~~~
 Usage:
- * \<APIKey\> : String (required) [1]
- * \<Secret\> : String (required) [1]
- * [-v] : turn on or off debugging (optional)
+ * -k : API Key String (required) [1]
+ * -s : Secret String (required) [1]
+ * [-v] : (verbose) turn on or off debugging (optional)
  * [-s] : turn on or off SSL mode (optional) [2]
 
 Notes:
  * [1] Find your \<APIKey\> and \<Secret\> from within MXT at http://mxt.smsglobal.com/api-key.
  * [2] We're disabling SSL Certificate Verification for ease of development and less braincells burned, please consider turn in it back on by commenting out the following line
 
-``` ruby
-   # SMSGlobalAPIWrapper.rb
-   http.verify_mode = OpenSSL::SSL::VERIFY_NONE # Dangerous, should not use for PRODUCTION
-```
-
-The result would look like this 
+Example result would look like this
 
 ~~~
-    ./SMSGlobalAPIConsumer.rb 2237275ba354517bdbd2477b7266e3c1 ccbb84e115a66eb2fc83834b8c0f31a3 -v
+    ./SMSGlobalAPIConsumer.php -v -k 27a657ff3aec742ddca08e3d918f9ccd -e 1d23ea091399a98f6c20faf1108c63a6
 
-    == Balance ==
-    opening connection to api.local...
-    opened
-    <- "GET /v1/balance HTTP/1.1\r\nAccept: */*\r\nUser-Agent: Ruby\r\nAuthorization: MAC id=\"2237275ba354517bdbd2477b7266e3c1\",ts=\"1372038429\",nonce=\"194261ab1a02abf8ee50c0c64bbf8534\",mac=\"vUirDqMjaBoMSICImtwQF/hkGAT8XCLMSzZiKLRp4g0=\"\r\nConnection: close\r\nHost: api.local\r\n\r\n"
-    -> "HTTP/1.1 200 OK\r\n"
-    -> "Server: nginx\r\n"
-    -> "Date: Mon, 24 Jun 2013 01:47:19 GMT\r\n"
-    -> "Content-Type: application/json\r\n"
-    -> "Content-Length: 121\r\n"
-    -> "Connection: close\r\n"
-    -> "Cache-Control: private\r\n"
-    -> "X-UA-Compatible: IE=Edge,chrome=1\r\n"
-    -> "\r\n"
-    reading 121 bytes...
-    -> "{\"balance\":1210.1997238238,\"countryCode\":\"AE\",\"costPerSms\":0.57,\"costPerMms\":1.43,\"smsAvailable\":2111,\"mmsAvailable\":844}"
-    read 121 bytes
-    Conn close
-    Your balance is: 1210.1997238238
-    Country code: AE
-    Cost per SMS: 0.57
-    Cost per MMS: 1.43
-    SMS available: 2111
-    MMS available: 844
+    == Getting Balance ==
+    "
+    * About to connect() to api.smsglobal.com port 80 (#0)
+    *   Trying 203.89.193.162... * connected
+    * Connected to api.smsglobal.com (203.89.193.162) port 80 (#0)
+    > GET /v1/balance HTTP/1.1
+    Host: api.smsglobal.com
+    User-Agent: Httpful/0.1.7 (cURL/7.21.4 PHP/5.3.15 (Darwin) Apple_Terminal/303.2)
+    Accept: */*; q=0.5, text/plain; q=0.8, text/html;level=3;q=0.9, application/json
+    Authorization: MAC id="27a657ff3aec742ddca08e3d918f9ccd", ts="1372641043", nonce="5530c86c4f4c86074b24ae32f20b4276", mac="ImKhXhfXr7cpFFW/sW8+OKk3KFbC3kwBaJ8MkRHY5QQ="
+
+    < HTTP/1.1 200 OK
+    < Server: nginx
+    < Date: Mon, 01 Jul 2013 01:10:37 GMT
+    < Content-Type: application/json
+    < Content-Length: 107
+    < Connection: keep-alive
+    < Cache-Control: private
+    < X-UA-Compatible: IE=Edge,chrome=1
+    < Set-Cookie: NSC_MC_203.89.193.162=ffffffffc3a00f3045525d5f4f58455e445a4a423660;expires=Mon, 01-Jul-2013 11:10:37 GMT;path=/;httponly
+    <
+    * Connection #0 to host api.smsglobal.com left intact
+    * Closing connection #0
+
+    Your balance is: 5.744
+    Country code: AU
+    Cost per SMS: 0.1
+    Cost per MMS: 0.38
+    SMS available: 56
+    MMS available: 15
 ~~~
