@@ -1,5 +1,9 @@
 PHP example client for SMS Global REST API
 ================================
+This is a simplified version of the PHP REST API Client, mainly to showcase how the API can be easily consumed :)
+For a full version that can actually be included as part of more serious projects, please check out these 2 bundles
+ * PHP 5.2 or below: https://github.com/smsglobal/rest-api-client-php-5.2
+ * PHP 5.3 or above: https://github.com/smsglobal/rest-api-client-php
 
 Requirements
 --------------------------------

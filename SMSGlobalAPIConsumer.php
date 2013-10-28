@@ -30,16 +30,19 @@ $apiPort = $ssl ? $configs['api_ssl_port'] : $configs['api_port'];
 
 $wrapper = new SMSGlobalAPIWrapper($key, $secret, $apiProtocol, $configs['api_host'], $apiPort, $configs['api_version'], '', $verbose);
 
-# Get Balance
+printf("\nGetting groups information..\n");
+$groups = $wrapper->get("group");
 
-    echo "\nGetting Balance ..\n";
-    $balance = $wrapper->get("balance");
-    printf("\nYour balance is: %s", $balance->balance);
-    printf("\nCountry code: %s", $balance->countryCode);
-    printf("\nCost per SMS: %s", $balance->costPerSms);
-    printf("\nCost per MMS: %s", $balance->costPerMms);
-    printf("\nSMS available: %s", $balance->smsAvailable);
-    printf("\nMMS available: %s", $balance->mmsAvailable);
-
+if (!$groups->objects) {
+    printf("\nYou have no groups.");
+}
+foreach($groups->objects as $group) {
+    printf("\nGroup %s.", $group->name);
+    printf("\n\tID %s.", $group->id);
+    printf("\n\tKeyword %s.", $group->keyword);
+    printf("\n\tDefault Origin %s", $group->defaultOrigin);
+    printf("\n\tResource URI %s", $group->resourceUri);
+    printf("\n");
+};
 
 ?>

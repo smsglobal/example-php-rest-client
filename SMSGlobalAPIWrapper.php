@@ -65,7 +65,7 @@ class SMSGlobalAPIWrapper
      * @throws Exception when there's something wrong with the request/response
      */
     private function connect($method, $action, $id = null) {
-        $action = !$id ? "$action" : "$action/id/$id";
+        $action = !$id ? "$action/" : "$action/id/$id/";
 
         $uri = "{$this->protocol}://{$this->host}:{$this->port}/{$this->apiVersion}/{$action}";
 
